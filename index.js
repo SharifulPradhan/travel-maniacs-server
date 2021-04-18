@@ -37,7 +37,6 @@ client.connect(err => {
       })
   })
 
-
   // API for get packages Collection from the Database
   app.get('/packages', (req, res) => {
     packagesCollection.find()
@@ -45,8 +44,6 @@ client.connect(err => {
         res.send(items)
       })
   })
-
- 
 
   // Load package according to package ID API
   app.get('/package/:id', (req, res) => {
@@ -89,7 +86,7 @@ client.connect(err => {
         res.send(documents)
       })
   })
-  
+
   // API for add reviews to the Database
   app.post('/addReview', (req, res) => {
     const review = req.body;
@@ -108,24 +105,25 @@ client.connect(err => {
       })
   })
 
-
+  // API for make anyone with email an admin
   app.post('/addAdmin', (req, res) => {
     const email = req.body;
     console.log('adding new admin: ', email)
     adminCollection.insertOne(email)
-        .then(result => {
-            res.send(result.insertedCount > 0);
-        })
-})
-
-app.post('/isAdmin', (req, res) => {
-  const email = req.body.email;
-  adminCollection.find({ email: email })
-      .toArray((err, admin) => {
-          res.send(admin.length > 0);
+      .then(result => {
+        res.send(result.insertedCount > 0);
       })
-})
-  
+  })
+
+  // API for filter data according to the Admin
+  app.post('/isAdmin', (req, res) => {
+    const email = req.body.email;
+    adminCollection.find({ email: email })
+      .toArray((err, admin) => {
+        res.send(admin.length > 0);
+      })
+  })
+
 });
 
 
